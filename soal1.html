@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Angsuran Mobil</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        input, button { margin: 10px 0; padding: 5px; }
+        #result { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Kalkulator Angsuran Mobil</h1>
+    <form id="angsuranForm">
+        <label for="hargaMobil">Harga Mobil (Rp):</label><br>
+        <input type="number" id="hargaMobil" required><br>
+        
+        <label for="downPaymentPersen">Down Payment (%):</label><br>
+        <input type="number" id="downPaymentPersen" required><br>
+        
+        <label for="lamaCicilan">Lama Cicilan (tahun):</label><br>
+        <input type="number" id="lamaCicilan" step="0.1" required><br>
+        
+        <button type="submit">Hitung Angsuran</button>
+    </form>
+
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('angsuranForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const hargaMobil = parseFloat(document.getElementById('hargaMobil').value);
+            const downPaymentPersen = parseFloat(document.getElementById('downPaymentPersen').value);
+            const lamaCicilan = parseFloat(document.getElementById('lamaCicilan').value);
+
+            const downPayment = hargaMobil * (downPaymentPersen / 100);
+            const sisaCicilan = hargaMobil - downPayment;
+            const lamaCicilanBulan = lamaCicilan * 12;
+            const angsuranPerBulan = sisaCicilan / lamaCicilanBulan;
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <h2>Hasil Perhitungan:</h2>
+                <p>Harga Mobil: Rp ${hargaMobil.toLocaleString('id-ID')}</p>
+                <p>Down Payment: Rp ${downPayment.toLocaleString('id-ID')} (${downPaymentPersen}%)</p>
+                <p>Sisa Cicilan: Rp ${sisaCicilan.toLocaleString('id-ID')}</p>
+                <p>Lama Cicilan: ${lamaCicilanBulan} bulan</p>
+                <p>Angsuran Per Bulan: Rp ${angsuranPerBulan.toLocaleString('id-ID', {maximumFractionDigits: 0})}</p>
+            `;
+        });
+    </script>
+</body>
+</html>
